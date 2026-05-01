@@ -1,113 +1,119 @@
-# 🐍 Pycobolix: Sıfır-Eğitimli (Zero-Shot) COBOL-Python Modernizasyon ve Test Çerçevesi
+# 🐍 Pycobolix: Zero-Shot COBOL-to-Python Modernization & Testing Framework
 
 [![Next.js](https://img.shields.io/badge/Next.js-15-black?logo=next.js)](https://nextjs.org/)
 [![License](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 [![LLM](https://img.shields.io/badge/Supported_Models-Gemini_3.1_Pro_%7C_Llama_3-purple)](#)
 
-Pycobolix, bankalarda ve kamu kurumlarında yaygın olarak kullanılan milyarlarca satırlık eski (legacy) **COBOL** kodunu, modern ve okunabilir **Python** koduna otomatik olarak dönüştürmek, test etmek ve doğrulamak için geliştirilmiş açık kaynaklı, web tabanlı bir framework'tür. 
+Pycobolix is an open-source, web-based framework designed to automate the translation, testing, and validation of legacy **COBOL** code into modern, readable **Python 3.11** code. Built to address the massive technical debt of billions of lines of enterprise COBOL still running in global financial and government systems, this framework leverages Large Language Models (LLMs) in a strict **zero-shot** setting—requiring absolutely no costly model fine-tuning.
 
-Model ince ayarına (fine-tuning) ihtiyaç duymadan tamamen **sıfır-eğitimli (zero-shot)** bir yaklaşım sunar. Çevrilen kodun doğruluğu, izole edilmiş korumalı alanlarda (sandbox) otomatik olarak sınanır ve orijinal GnuCOBOL çıktılarıyla anlamsal (semantic) olarak karşılaştırılır.
+Unlike standard code generation tools, Pycobolix does not blindly trust AI outputs. It features a robust, isolated sandbox environment that automatically executes both the generated Python code and the original GnuCOBOL code against dynamically generated edge-case inputs, verifying semantic equivalence before ever presenting the code to a human developer.
 
 ---
 
-## 📸 Kullanıcı Arayüzü (Web Dashboard)
+## 📸 User Interface (Web Dashboard)
 
-Araştırmacıların ve geliştiricilerin çeviri süreçlerini, metrikleri ve test sonuçlarını anlık olarak takip edebilecekleri modern bir kontrol paneli sunulmaktadır.
+Pycobolix comes with a modern Next.js-based dashboard that allows researchers and engineers to monitor translation queues, inspect sandbox execution metrics, and dive deep into AI-generated benchmark summaries.
 
-| Ana Sayfa | Gösterge Paneli (Dashboard) |
+| Home | Dashboard |
 |:---:|:---:|
 | ![Home](./public/docs/ui_home.png) | ![Dashboard](./public/docs/ui_dashboard.png) |
-| **Kod Gezgini (Explorer)** | **Metrik Analizi (Analysis)** |
+| **Code Explorer** | **Metrics Analysis** |
 | ![Explorer](./public/docs/ui_explorer.png) | ![Analysis](./public/docs/ui_analysis.png) |
 
-*(Ayrıca model ayarları için `ui_settings.png` ve token kullanımı için `ui_token.png` sayfaları mevcuttur.)*
+*(Additional views include Model Settings and Token Usage monitors.)*
 
 ---
 
-## ✨ Temel Özellikler
+## ✨ Key Features
 
-- **🤖 Sıfır-Eğitimli (Zero-Shot) Çeviri:** `COMP-3`, `REDEFINES`, `PERFORM VARYING` gibi karmaşık COBOL yapılarını model eğitimi gerektirmeden Python 3.11'e dönüştürür.
-- **🛡️ Çift Yönlü Güvenli Korumalı Alan (Sandbox) Testi:** Orijinal COBOL kodunu GnuCOBOL ile, çevrilen Python kodunu ise Python 3.11 ile izole ortamlarda (sandbox) eşzamanlı olarak çalıştırır.
-- **🧪 Hibrit Test Üretimi (BVA & LLM):** Kodların sınır değerlerini test etmek için Sınır Değer Analizi (Boundary Value Analysis - BVA) yöntemini kullanır. Yetersiz kaldığı durumlarda ise deterministik LLM çağrıları ile (*Temperature=0*) otomatik olarak her dosya için 5 farklı test senaryosu üretir.
-- **📊 Gelişmiş Metrik Raporlama:** Anlamsal eşleşme (Semantic Match Rate), Pass@1, döngüsel karmaşıklık (Cyclomatic Complexity) düşüşü ve satır sayısı (LOC) analizi gibi detaylı akademik metrikler sunar.
-- **🔒 Tam Veri Gizliliği Seçeneği:** Bulut tabanlı **Google Gemini 3.1 Pro** API'sine ek olarak, kurumsal güvenlik politikaları gereği kodlarını dışarı çıkaramayan kurumlar için yerel olarak barındırılan **Ollama (Meta Llama 3)** modelleriyle de çalışabilir.
-
----
-
-## 🏗️ Mimari ve İş Akışı
-
-Pycobolix'in mimarisi, kod üretiminin tahmin edilemezliğini güvenli test yürütmesinden ayırmak için iki ana ortama ayrılmıştır:
-
-1. **Üretim Ortamı (Generation Environment):**
-   - COBOL kaynak kodlarının sisteme alınması ve formatlanması.
-   - LLM'ler aracılığıyla Python kodunun asenkron olarak üretilmesi (Zero-shot prompt engineering).
-   - Test girdilerinin eşzamanlı olarak BVA ve LLM-fallback ile hazırlanması.
-2. **Yürütme ve Değerlendirme Ortamı (Execution & Evaluation Environment):**
-   - Üretilen test senaryolarının Python 3.11 ve GnuCOBOL için yaratılan güvenli Sandbox konteynerlerinde çalıştırılması.
-   - Çıktıların anlamsal (semantic) eşleşme veya tam karakter uyumu (format match) kıstaslarına göre karşılaştırılması.
-   - Hata tiplerinin (Mantık Hatası, Boşluk Hatası, Çökme) sınıflandırılması ve LLM aracılığıyla okunabilir bir PDF sonuç raporu (AI Summary) oluşturulması.
+- **🤖 Zero-Shot LLM Translation:** Accurately translates complex COBOL paradigms (including `COMP-3` packed decimals, `REDEFINES` memory overlaps, and unstructured `PERFORM VARYING` loops) without any prior model training.
+- **🛡️ Bidirectional Sandbox Validation:** Compares the original GnuCOBOL baseline against the generated Python execution in deeply isolated containers. It supports both **forward testing** (COBOL $\rightarrow$ Python) and **reverse testing** (Python $\rightarrow$ COBOL).
+- **🧪 Hybrid Test Generation:** Automatically synthesizes 5 robust test cases per file by prioritizing deterministic Boundary Value Analysis (BVA) for numeric fields, and gracefully falling back to LLM-generated inputs when static analysis borders are exceeded.
+- **📊 Comprehensive Academic Metrics:** Computes rigorous empirical metrics, including Semantic Match Rate, Format Match (Hard Match), Pass@1, Halstead Effort, and Cyclomatic Complexity Reduction.
+- **🔒 Data Privacy & Local Execution:** Fully supports locally-hosted open-weights models (like **Meta Llama 3 via Ollama**) alongside cloud APIs (**Google Gemini 3.1 Pro**), allowing institutions with strict confidentiality requirements to run the entire pipeline offline.
 
 ---
 
-## 📈 Araştırma Sonuçları ve Başarı Oranları
+## 🏗️ Architecture & Pipeline
 
-Sistem, özel olarak hazırlanmış ve gerçek dünya senaryolarını yansıtan **110 dosyalık bir COBOL veri seti** üzerinde (Basit, Orta ve Karmaşık seviyelerde toplam $\approx$9,200 LOC) kapsamlı bir şekilde test edilmiştir.
+To handle the inherent non-determinism of generative AI, Pycobolix is split into two distinct, secure architectural boundaries:
 
-### Temel Doğruluk Metrikleri
-- **Gemini 3.1 Pro**, dosyaların **%37.3'ünde Anlamsal Eşleşme (Semantic Match)** başarısı gösterirken, Llama 3 8B sadece **%3.6** oranında başarılı olmuştur.
-- **Pass@1 Oranı** (ilk denemede 5 testin 5'inden de geçme) Gemini için **%20.9**, Llama 3 için ise %0.9'dur.
-- Dikkat çekici bir şekilde, test sürecini Python'dan COBOL'a (Reverse Translation) yürüttüğümüzde anlamsal eşleşme Gemini için **%43.6**'ya, Llama 3 için **%30.0**'a çıkmıştır. Bu, modellerin iş mantığını doğru kavradığını ancak çıktı formatında (ör. boşluk hizalamaları) COBOL ile uyuşmazlık yaşadığını göstermektedir.
+### 1. Generation Environment
+- **Ingestion & Prompting:** Raw COBOL source files are ingested and wrapped in optimized, zero-shot prompt templates.
+- **Dual-Track Generation:** The translation to Python and the generation of BVA/LLM test inputs occur in parallel via asynchronous API calls, maximizing throughput.
 
-### Kod Kalitesi ve Karmaşıklık Düşüşü
-- Üretilen Python kodları orijinal COBOL'a kıyasla döngüsel karmaşıklığı (Cyclomatic Complexity) **Gemini ile %51.9**, **Llama 3 ile %63.9** oranında düşürmüştür.
-- Satır sayısı oranları (LOC Ratio) sırasıyla **0.59 ve 0.53** olarak ölçülmüştür; yani Python versiyonları eski kodun yaklaşık yarısı uzunluğundadır.
-- Kodlar üzerinde çalıştırılan \`mypy\` aracı **0 (sıfır) tip hatası** raporlamıştır.
-
-### Performans ve Maliyet
-Manuel olarak 180-200 saat sürecek olan 110 dosyalık çeviri ve analiz süreci, Pycobolix ile (çeviri, sandbox testleri ve PDF raporlama dâhil) yalnızca **50 dakika** içinde tamamlanmıştır.
+### 2. Execution & Evaluation Environment
+- **Cross-Language Sandboxes:** Python 3.11 and GnuCOBOL containers run the identically generated test inputs.
+- **Semantic Comparison:** Outputs are compared. Even if formatting (like padding and whitespace) differs, the system strips artifacts to check for a true **Semantic Match**.
+- **AI Summary Reporting:** Failing tests are categorized by error type (Logic Error, Whitespace Error, Crash). An auxiliary LLM call aggregates this data into a human-readable PDF benchmark report.
 
 ---
 
-## 🧪 Veri Seti
+## 📈 Experimental Setup & Custom Dataset
 
-Açık kaynaklı ve karmaşık COBOL veri seti eksikliğini gidermek amacıyla bu araştırma kapsamında 110 dosyadan oluşan bir veri seti oluşturulmuştur. Programlar, McCabe'in döngüsel karmaşıklık hesabına ek olarak COBOL'un `PERFORM` ve `Paragraph` yapılarını da hesaba katan özel bir Karmaşıklık Skoru ($C$) ile "Basit", "Orta" ve "Karmaşık" olarak kategorize edilmiştir. Tüm veri setine `/article` dizininden veya projenin GitHub reposundan ulaşılabilir.
+General-purpose coding benchmarks (like HumanEval) fail to capture the procedural verbosity and rigid data types of enterprise COBOL. To evaluate Pycobolix, we authored a custom dataset of **110 COBOL programs** ($\approx$9,200 LOC), simulating real-world scenarios like tax calculators, payroll systems, and inventory managers.
+
+Programs were categorized into **Simple, Medium, and Complex** tiers using a custom COBOL-specific complexity score ($C$) that accounts for decision nodes (`IF`, `EVALUATE`), iteration (`PERFORM`), and modular depth (`Paragraphs`).
 
 ---
 
-## 🚀 Başlangıç ve Kurulum
+## 🏆 Results & Findings
 
-Projenin arayüzü ve backend API'leri **Next.js** kullanılarak geliştirilmiştir. Kurulum adımları aşağıdadır:
+We benchmarked **Google Gemini 3.1 Pro** (Cloud) against **Meta Llama 3 8B** (Local). The entire pipeline for 110 files—including zero-shot translation, test generation, cross-language sandboxing, and PDF reporting—completed in just **50 minutes**, drastically reducing the estimated 180-200 hours it would take a senior human engineer.
 
-### Ön Koşullar
-- Node.js (v18.x veya üzeri)
-- npm, yarn, pnpm veya bun
-- (İsteğe Bağlı) Yerel modeller için [Ollama](https://ollama.com/)
-- (İsteğe Bağlı) Sandbox testleri için GnuCOBOL
+### 1. Translation Accuracy
+- **Gemini 3.1 Pro** achieved a **37.3% Semantic Match Rate** across the dataset and a **20.9% Pass@1 Rate** (passing all 5 rigorous test cases on the first try).
+- **Llama 3 8B** struggled with COBOL's logic, achieving only a **3.6% Semantic Match**.
+- **Format Match (Hard Match):** Both models scored under 5%, proving that exact character-by-character alignment (which COBOL is famous for) remains extremely difficult for generative AI. 
 
-### Kurulum Adımları
+### 2. Reverse Translation Phenomenon
+When we evaluated the models in reverse (extracting test inputs from the generated Python, and running them against the original COBOL), accuracy jumped significantly. Gemini improved from 37.3% to **43.6%**, and Llama 3 soared from 3.6% to **30.0%**. This indicates that LLMs often grasp the underlying business logic perfectly, but fail simply due to output formatting discrepancies.
 
-1. Depoyu bilgisayarınıza klonlayın:
+### 3. Code Quality & Optimization
+- **Complexity Reduction:** The generated Python code was vastly simpler than the original COBOL. Gemini reduced Cyclomatic Complexity by **51.9%**, and Llama 3 by **63.9%**.
+- **Lines of Code (LOC) Ratio:** The Python outputs averaged a ratio of **0.59** (Gemini) and **0.53** (Llama 3), effectively cutting the length of the codebase in half.
+- **Type Safety:** The automated `mypy` type checker reported **0 errors** across all generated Python files, confirming excellent adherence to modern type-hinting standards.
+
+### 4. The BVA Penalty & COBOL Truncation
+Both models showed **0% boundary faithfulness**. When a field like `PIC 99` was fed an out-of-range value (e.g., `150`), COBOL silently truncates it to `50`. The Python translations consistently threw `ValueError` exceptions instead. This highlights a critical limitation in current LLMs: they fail to replicate language-specific, implicit memory truncation behaviors.
+
+---
+
+## 🛠️ Getting Started / Installation
+
+The Pycobolix dashboard and backend are built on **Next.js**.
+
+### Prerequisites
+- **Node.js** (v18.x or higher)
+- **npm**, **yarn**, **pnpm**, or **bun**
+- *(Optional)* **Ollama** installed and running locally (if using local Llama 3 models)
+- *(Optional)* **GnuCOBOL** installed on your host system (for executing baseline sandbox tests)
+
+### Setup Instructions
+
+1. **Clone the repository:**
    ```bash
    git clone https://github.com/berkkaya0304/pycobolix.git
    cd pycobolix
    ```
 
-2. Gerekli kütüphaneleri yükleyin:
+2. **Install dependencies:**
    ```bash
    npm install
    ```
 
-3. Geliştirme sunucusunu başlatın:
+3. **Start the development server:**
    ```bash
    npm run dev
    ```
 
-4. Tarayıcınızdan [http://localhost:3000](http://localhost:3000) adresine giderek Pycobolix Dashboard'a erişin.
+4. **Access the Dashboard:**
+   Open your browser and navigate to [http://localhost:3000](http://localhost:3000) to begin exploring the Pycobolix interface.
 
 ---
 
-## 📄 Lisans ve Akademik Atıf
+## 📄 License & Academic Citation
 
-Bu proje akademik bir araştırma kapsamında geliştirilmiş olup açık kaynaklıdır. Projeyi araştırmalarınızda veya kurumsal süreçlerinizde kullanacaksanız, lütfen ilgili makaleye atıfta bulunun (Atıf detayları makale yayınlandıktan sonra eklenecektir).
+This project is open-source and released as part of an academic research effort into legacy modernization. 
 
-Geri bildirimleriniz, hata bildirimleri veya geliştirmeler için **GitHub Issues** ve **Pull Requests** sekmelerini kullanabilirsiniz!
+If you utilize Pycobolix in your research, enterprise modernization pipelines, or literature reviews, please cite the corresponding academic paper (citation details will be provided upon publication). For questions, bug reports, or feature requests, please utilize the **GitHub Issues** tracker. Pull requests are warmly welcomed!
