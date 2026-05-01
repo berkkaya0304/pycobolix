@@ -1,0 +1,24 @@
+       IDENTIFICATION DIVISION.
+       PROGRAM-ID. Basics.
+       AUTHOR. PinkePop.
+
+       DATA DIVISION.
+       WORKING-STORAGE SECTION.
+       01  WS-NAME PIC X(20) VALUE 'Skye OSBOURNE'.
+       01  WS-GROSS-PAY PIC 9(5)V99 VALUE 2500.50.
+       01  WS-EMP-CONTRIB PIC 9(5)V99 COMP-3.
+       01  WS-NET-PAY PIC 9(5)V99.
+       01  WS-NET-PAY-ED PIC Z,ZZZ.99.
+
+       PROCEDURE DIVISION.
+
+           COMPUTE WS-EMP-CONTRIB = WS-GROSS-PAY * 0.20.
+           COMPUTE WS-NET-PAY = WS-GROSS-PAY - WS-EMP-CONTRIB.
+
+           MOVE WS-NET-PAY TO WS-NET-PAY-ED.
+
+           DISPLAY 'Employe: ' WS-NAME.
+           DISPLAY 'NET: ' WS-NET-PAY-ED.
+
+           STOP RUN.
+           

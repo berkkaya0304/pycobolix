@@ -1,0 +1,275 @@
+.main {
+  padding: 2rem 3rem;
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.pageHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  margin-bottom: 2.5rem;
+}
+
+.headerTitle {
+  font-size: 2.5rem;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  margin-bottom: 0.5rem;
+  background: linear-gradient(135deg, var(--foreground) 60%, rgba(var(--foreground-rgb), 0.7));
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.headerSub {
+  color: var(--muted-foreground);
+  font-size: 1.1rem;
+}
+
+.sectionContainer {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 1.25rem;
+  padding: 2rem;
+  margin-bottom: 2rem;
+  box-shadow: 0 4px 24px -12px rgba(0, 0, 0, 0.1);
+}
+
+.sectionHeader {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+.sectionIcon {
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
+  background: rgba(var(--primary-rgb), 0.1);
+  color: var(--primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.sectionTitle {
+  font-size: 1.25rem;
+  font-weight: 700;
+  margin: 0;
+}
+
+.sectionSubtitle {
+  font-size: 0.875rem;
+  color: var(--muted-foreground);
+  margin: 0.25rem 0 0 0;
+}
+
+.statsGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 1.5rem;
+  margin-bottom: 2.5rem;
+}
+
+.statCard {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 1rem;
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.statLabel {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--muted-foreground);
+}
+
+.statValue {
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--foreground);
+}
+
+.statSubtext {
+  font-size: 0.75rem;
+  color: var(--muted-foreground);
+}
+
+.tableContainer {
+  margin-top: 1.5rem;
+}
+
+.usageTable {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0 0.625rem;
+  font-size: 0.875rem;
+}
+
+.thContent {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--muted-foreground);
+  padding: 0 1rem 0.5rem 1rem;
+}
+
+.usageTable th {
+  text-align: left;
+  border-bottom: none;
+}
+
+.tableRow {
+  background: var(--card);
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  cursor: default;
+}
+
+.tableRow:hover {
+  background: rgba(var(--primary-rgb), 0.04);
+  transform: translateY(-2px);
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+}
+
+.tableRow td {
+  padding: 1.25rem 1rem;
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+}
+
+.tableRow td:first-child {
+  border-left: 1px solid var(--border);
+  border-top-left-radius: 0.75rem;
+  border-bottom-left-radius: 0.75rem;
+}
+
+.tableRow td:last-child {
+  border-right: 1px solid var(--border);
+  border-top-right-radius: 0.75rem;
+  border-bottom-right-radius: 0.75rem;
+}
+
+/* Cell Specific Styles */
+.timeCell {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.dateText {
+  font-weight: 600;
+  color: var(--foreground);
+}
+
+.timeText {
+  font-size: 0.75rem;
+  color: var(--muted-foreground);
+}
+
+.modelBadge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.35rem 0.75rem;
+  border-radius: 0.625rem;
+  font-weight: 600;
+  font-size: 0.75rem;
+  border: 1px solid transparent;
+}
+
+.modelBadgeGpt {
+  background: rgba(16, 163, 127, 0.1);
+  color: #10a37f;
+  border-color: rgba(16, 163, 127, 0.2);
+}
+
+.modelBadgeClaude {
+  background: rgba(217, 119, 6, 0.1);
+  color: #d97706;
+  border-color: rgba(217, 119, 6, 0.2);
+}
+
+.modelBadgeGemini {
+  background: rgba(37, 99, 235, 0.1);
+  color: #2563eb;
+  border-color: rgba(37, 99, 235, 0.2);
+}
+
+.modelBadgeDefault {
+  background: rgba(var(--primary-rgb), 0.1);
+  color: var(--primary);
+  border-color: rgba(var(--primary-rgb), 0.2);
+}
+
+.tokenCell {
+  display: flex;
+  flex-direction: column;
+}
+
+.tokenValue {
+  font-weight: 700;
+  color: var(--foreground);
+}
+
+.tokenSub {
+  font-size: 0.7rem;
+  color: var(--muted-foreground);
+}
+
+.durationCell {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-weight: 500;
+}
+
+.durationIcon {
+  color: var(--primary);
+  opacity: 0.7;
+}
+
+.fileCell {
+  display: flex;
+  align-items: center;
+  gap: 0.625rem;
+  max-width: 200px;
+  color: var(--muted-foreground);
+}
+
+.fileName {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: 0.8125rem;
+}
+
+.emptyState {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 5rem 2rem;
+  color: var(--muted-foreground);
+  text-align: center;
+}
+
+.emptyState p {
+  font-weight: 600;
+  margin-top: 1.25rem;
+  color: var(--foreground);
+  font-size: 1rem;
+}
+
+.emptyState span {
+  font-size: 0.875rem;
+  margin-top: 0.25rem;
+}
+
