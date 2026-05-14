@@ -6,6 +6,7 @@ import { MOCK_DATA } from '@/lib/data/mockData';
 import { AnalysisResult, TestResult } from '@/lib/data/types';
 import { getAnalysisResultsAction, generateAnalysisExplanationAction } from '@/app/actions';
 import { ChevronDown, ChevronRight, Download, Sparkles } from 'lucide-react';
+import ExportWrapper from '@/components/Dashboard/ExportWrapper';
 import { useTranslation } from '@/lib/i18n/LanguageContext';
 
 // ─── JSON Export Helpers ────────────────────────────────────────────────────
@@ -315,7 +316,8 @@ export default function AnalysisPage() {
         </button>
       </div>
 
-      <div className={styles.tableWrap}>
+      <ExportWrapper filename="analysis_detail_table" title="Table: Detailed Per-File Analysis Results" paperStyle={true}>
+        <div className={styles.tableWrap}>
         <table className={styles.table}>
           <thead>
             <tr>
@@ -498,7 +500,8 @@ export default function AnalysisPage() {
             )}
           </tbody>
         </table>
-      </div>
+        </div>
+      </ExportWrapper>
 
       <div className={styles.aiReportContainer}>
         <div className={styles.aiReportContainerContentBorder} />

@@ -17,18 +17,29 @@ export default function FileDifficultyChart({ data }: Props) {
   // Unique model names
   const models = [...new Set(data.flatMap(f => f.models.map(m => m.model_name)))];
 
-  const chartData = data.map(file => {
+  const chartData = data
+    .filter(file => file.models.some(m => (m.metrics.unit_tests_total ?? 0) > 0))
+    .map(file => {
     const entry: Record<string, string | number> = {
       name: file.source_file.replace(/\.(cbl|cob)$/i, ''),
     };
+    let sum = 0;
+    let count = 0;
     file.models.forEach(m => {
       const total = m.metrics.unit_tests_total ?? 0;
-      entry[m.model_name] = total > 0
-        ? Math.round(((m.metrics.format_match_passed ?? 0) / total) * 100)
+      const pct = total > 0
+        ? Math.round(((m.metrics.unit_tests_passed ?? 0) / total) * 100)
         : 0;
+      entry[m.model_name] = pct;
+      sum += pct;
+      count++;
     });
+    entry._avg = count > 0 ? sum / count : 0;
     return entry;
   });
+
+  chartData.sort((a, b) => (a._avg as number) - (b._avg as number));
+  const displayData = chartData.slice(0, 20);
 
   const MODEL_COLORS: Record<string, string> = {};
   const PALETTE = ['#6366f1', '#10b981', '#f59e0b', '#ec4899', '#06b6d4']; // Premium palette
@@ -39,7 +50,7 @@ export default function FileDifficultyChart({ data }: Props) {
       <h3 className={styles.title}>{t('charts.fileDifficultyChart')}</h3>
       <p className={styles.subtitle}>{t('chartLabels.fileDifficulty.subtitle')}</p>
       <ResponsiveContainer width="100%" height="100%">
-        <BarChart data={chartData} margin={{ top: 10, right: 10, left: -20, bottom: 50 }}>
+        <BarChart data={displayData} margin={{ top: 10, right: 10, left: -20, bottom: 50 }}>
           <CartesianGrid strokeDasharray="3 3" stroke="var(--border)" vertical={false} opacity={0.5} />
           <XAxis
             dataKey="name"

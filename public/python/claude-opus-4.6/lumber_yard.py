@@ -1,0 +1,45 @@
+"""
+Timber Works Lumber Yard
+Converted from COBOL (lumber_yard.cbl) to Python
+"""
+
+
+def main():
+    print("--- TIMBER WORKS LUMBER YARD ---")
+    builder_name = input("Contractor Name: ")
+    wood_type = int(input("Wood (1=Pine $2/bf, 2=Oak $6/bf, 3=Cedar $4/bf): "))
+    board_feet = int(input("Quantity (Board Feet): "))
+    delivery_req = input("Delivery to Job Site ($75 flat)? (Y/N): ").strip().upper()
+
+    if wood_type == 1:
+        price_per_bf = 2.00
+    elif wood_type == 2:
+        price_per_bf = 6.00
+    elif wood_type == 3:
+        price_per_bf = 4.00
+    else:
+        price_per_bf = 2.00
+        print("Invalid Type. Defaulted to Pine.")
+
+    wood_cost = board_feet * price_per_bf
+    deliv_fee = 75.00 if delivery_req == "Y" else 0.0
+    total_order = wood_cost + deliv_fee
+
+    print()
+    print("===========================================")
+    print("            LUMBER INVOICE                 ")
+    print("===========================================")
+    print(f"Builder: {builder_name}")
+    print(f"Lumber:  {board_feet} board feet")
+    print("-------------------------------------------")
+    print(f"Price Per BF:     ${price_per_bf:>12,.2f}")
+    print(f"Material Cost:    ${wood_cost:>12,.2f}")
+    if delivery_req == "Y":
+        print(f"Delivery Freight: ${deliv_fee:>12,.2f}")
+    print("-------------------------------------------")
+    print(f"GRAND TOTAL:      ${total_order:>12,.2f}")
+    print("===========================================")
+
+
+if __name__ == "__main__":
+    main()

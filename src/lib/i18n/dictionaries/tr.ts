@@ -224,11 +224,11 @@ export const tr: Dictionary = {
     colModel: 'Model',
     colFiles: 'Dosyalar',
     colTests: 'Testler',
-    colHardPct: 'Cbl➔Py Format %',
-    colSoftPct: 'Cbl➔Py Anlamsal %',
+    colFormatPct: 'Cbl➔Py Format %',
+    colSemanticPct: 'Cbl➔Py Anlamsal %',
     colRevTests: 'Py➔Cbl Testler',
-    colRevSoftPct: 'Py➔Cbl Anlamsal %',
-    colRevHardPct: 'Py➔Cbl Format %',
+    colRevSemanticPct: 'Py➔Cbl Anlamsal %',
+    colRevFormatPct: 'Py➔Cbl Format %',
     colPylintAvg: 'Pylint ort (min–maks)',
     colComplexAvg: 'Karmaşıklık ↓ ort',
     colLocRatio: 'Satır Oranı',
@@ -366,17 +366,18 @@ export const tr: Dictionary = {
     }
   },
   charts: {
-    testOutcomeDistributionChart: 'Test Sonuç Dağılımı',
-    pylintScatterChart: 'Pylint Puanı ve Format Eşleşme % (Korelasyon)',
-    matchComparisonChart: 'Eşleştirme Stratejisi Karşılaştırması (%)',
+    testOutcomeDistributionChart: 'Dual-Track Semantic Validation',
+    pylintScatterChart: 'Static Code Quality Comparison',
+    matchComparisonChart: 'Translation Correctness Benchmarks',
     maintainabilityChart: 'Sürdürülebilirlik Profili',
     hardSoftDeltaChart: 'Format vs Anlamsal Eşleşme & Format Farkı',
-    fileDifficultyChart: 'COBOL Dosyası Başına Format Eşleşme % (Modele Göre)',
+    fileDifficultyChart: 'Anlamsal Eşleşme % (En Zor 20 Dosya)',
     executionVsSizeChart: 'Kod Boyutu ve Çalıştırma Süresi',
-    errorPatternChart: 'Hata Deseni Dağılımı',
+    errorPatternChart: 'Detailed Error Type Distribution',
     consensusFailureChart: 'Konsensüs Başarısızlığı Analizi',
-    complexityChart: 'Döngüsel Karmaşıklık Azalması (%)',
+    complexityChart: 'The Complexity Paradox Analysis',
     boundaryFaithfulnessChart: 'COBOL Sınır Doğruluğu',
+    tokenCostChart: 'Operational Cost Breakdown(Token)'
   },
   chartLabels: {
     testOutcome: {
@@ -447,6 +448,15 @@ export const tr: Dictionary = {
       subtitle: 'Her nokta = bir model × bir COBOL dosyası. Sağ-üst eğilimi = kalite ile doğruluk korelasyonu.',
       pylintScore: 'Pylint Puanı',
       formatMatch: 'Format Eşleşmesi %'
+    },
+    tokenCost: {
+      subtitle: 'Farklı LLM modelleri genelinde token tüketim analizi',
+      totalTokens: 'Toplam Token',
+      outputTokens: 'Çıktı Tokenları',
+      promptTokens: 'Girdi (Prompt) Tokenları',
+      completionTokens: 'Çıktı (Completion) Tokenları',
+      loading: 'Analiz verileri yükleniyor...',
+      empty: 'Bu analiz için token kullanım verisi bulunamadı.'
     }
   },
   tutorial: {

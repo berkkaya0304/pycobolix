@@ -6,7 +6,12 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "article:figures": "node scripts/export_article_figures.mjs",
+    "article:token-chart": "node scripts/export_token_usage_chart.mjs",
+    "article:build": "npm run article:figures && npm run article:compile",
+    "article:compile": "node scripts/compile_article.mjs",
+    "article:compile:clean": "node scripts/compile_article.mjs --clean"
   },
   "dependencies": {
     "@google/genai": "^1.44.0",

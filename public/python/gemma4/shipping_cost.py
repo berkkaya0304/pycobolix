@@ -1,0 +1,50 @@
+import sys
+
+def main():
+    print("--- GLOBAL COURIER LOGISTICS ---")
+    
+    try:
+        sender_name = input("Sender Name: ")
+        weight_kg = float(input("Package Weight (kg): "))
+        dim_length = float(input("Length (cm): "))
+        dim_width = float(input("Width (cm): "))
+        dim_height = float(input("Height (cm): "))
+        zone_code = int(input("Zone (1=Local, 2=Regional, 3=National): "))
+    except ValueError:
+        print("Invalid input. Please enter numeric values for dimensions, weight, and zone.")
+        sys.exit(1)
+
+    # Determine Cost Logic
+    volumetric_wt = (dim_length * dim_width * dim_height) / 5000
+    chargeable_wt = max(volumetric_wt, weight_kg)
+
+    zone_map = {
+        1: 1.25,  # Local
+        2: 2.50,  # Regional
+        3: 4.00   # National
+    }
+
+    if zone_code in zone_map:
+        zone_multiplier = zone_map[zone_code]
+    else:
+        zone_multiplier = 4.00
+        print("Unknown zone. Defaulting to National.")
+
+    base_shipping = (chargeable_wt * zone_multiplier) + 5.00
+
+    # Print Label Logic
+    print("\n====================================")
+    print("         SHIPPING MANIFEST          ")
+    print("====================================")
+    print(f"Sender: {sender_name}")
+    print(f"Zone:   {zone_code}")
+    print("------------------------------------")
+    print(f"Actual Weight:     {weight_kg:.2f} kg")
+    print(f"Volumetric Weight: {volumetric_wt:.2f} kg")
+    print(f"Chargeable Weight: {chargeable_wt:.2f} kg")
+    print("------------------------------------")
+    print(f"TOTAL POSTAGE:     ${base_shipping:,.2f}")
+    print("====================================")
+
+if __name__ == "__main__":
+    main()

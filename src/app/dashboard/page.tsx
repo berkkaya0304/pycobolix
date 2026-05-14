@@ -15,6 +15,11 @@ import ConsensusFailureChart from '@/components/Dashboard/ConsensusFailureChart'
 import ErrorPatternChart from '@/components/Dashboard/ErrorPatternChart';
 import MetricLegend from '@/components/Dashboard/MetricLegend';
 import BoundaryFaithfulnessChart from '@/components/Dashboard/BoundaryFaithfulnessChart';
+
+import ExecutionVsSizeChart from '@/components/Dashboard/ExecutionVsSizeChart';
+import PylintScatterChart from '@/components/Dashboard/PylintScatterChart';
+import TokenCostChart from '@/components/Dashboard/TokenCostChart';
+import ExportWrapper from '@/components/Dashboard/ExportWrapper';
 import { AnalysisResult } from '@/lib/data/types';
 import { runAnalysisAction, getAnalysisResultsAction, generateAnalysisExplanationAction } from '@/app/actions';
 import { Play, RotateCw, Download, BarChart3, Activity, PieChart, Target, FileText } from 'lucide-react';
@@ -25,6 +30,19 @@ import { en } from '@/lib/i18n/dictionaries/en';
 import { tr } from '@/lib/i18n/dictionaries/tr';
 import { toast } from 'sonner';
 import { deepSanitize } from '@/lib/utils/pdfSanitizer';
+import { 
+  getMatchComparisonConfig, 
+  getTestOutcomeConfig, 
+  getPylintScatterConfig,
+  getComplexityConfig,
+  getMaintainabilityConfig,
+  getExecutionVsSizeConfig,
+  getHardSoftDeltaConfig,
+  getConsensusFailureConfig,
+  getErrorPatternConfig,
+  getRadarConfig,
+  getBoundaryFaithfulnessConfig
+} from '@/lib/utils/exportConfigs';
 
 export default function DashboardPage() {
   const [data, setData]             = useState<AnalysisResult[]>(MOCK_DATA);
@@ -215,7 +233,9 @@ export default function DashboardPage() {
 
       {/* Score Cards */}
       <section id="tutorial-score-cards">
-        <ScoreCards data={displayData} viewType={activeTab === 'additional' ? 'additional' : 'directional'} activeTab={activeTab} />
+        <ExportWrapper filename="score_cards_summary" title="Figure: Key Performance Indicators">
+          <ScoreCards data={displayData} viewType={activeTab === 'additional' ? 'additional' : 'directional'} activeTab={activeTab} />
+        </ExportWrapper>
       </section>
 
       {/* Charts — responsive grid */}
@@ -230,8 +250,20 @@ export default function DashboardPage() {
               </div>
             </div>
             <div className={styles.chartsGrid}>
-              <ModelComparison data={displayData} />
-              <MatchComparisonChart data={displayData} />
+              <ExportWrapper 
+                filename="model_comparison_radar" 
+                title="Figure: Model Comparison Radar Chart"
+                exportConfig={getRadarConfig(displayData, t)}
+              >
+                <ModelComparison data={displayData} />
+              </ExportWrapper>
+              <ExportWrapper 
+                filename="match_comparison" 
+                title="Figure: Format vs Semantic Match Rates"
+                exportConfig={getMatchComparisonConfig(displayData, t)}
+              >
+                <MatchComparisonChart data={displayData} />
+              </ExportWrapper>
             </div>
           </section>
 
@@ -244,10 +276,34 @@ export default function DashboardPage() {
               </div>
             </div>
             <div className={styles.chartsGrid}>
-              <TestOutcomeDistributionChart data={displayData} />
-              <HardSoftDeltaChart data={displayData} />
-              <ConsensusFailureChart data={displayData} />
-              <ErrorPatternChart data={displayData} />
+              <ExportWrapper 
+                filename="test_outcome_distribution" 
+                title="Figure: Test Outcome Distribution"
+                exportConfig={getTestOutcomeConfig(displayData, t)}
+              >
+                <TestOutcomeDistributionChart data={displayData} />
+              </ExportWrapper>
+              <ExportWrapper 
+                filename="hard_soft_delta" 
+                title="Figure: Hard vs Soft File Delta"
+                exportConfig={getHardSoftDeltaConfig(displayData, t)}
+              >
+                <HardSoftDeltaChart data={displayData} />
+              </ExportWrapper>
+              <ExportWrapper 
+                filename="consensus_failure" 
+                title="Figure: Consensus Failure Analysis"
+                exportConfig={getConsensusFailureConfig(displayData, t)}
+              >
+                <ConsensusFailureChart data={displayData} />
+              </ExportWrapper>
+              <ExportWrapper 
+                filename="error_pattern" 
+                title="Figure: Error Pattern Distribution"
+                exportConfig={getErrorPatternConfig(displayData, t)}
+              >
+                <ErrorPatternChart data={displayData} />
+              </ExportWrapper>
             </div>
           </section>
         </>
@@ -264,8 +320,37 @@ export default function DashboardPage() {
               </div>
             </div>
             <div className={styles.chartsGrid}>
-              <ComplexityChart data={displayData} />
-              <MaintainabilityChart data={displayData} />
+              <ExportWrapper 
+                filename="complexity_reduction" 
+                title="Figure: Cyclomatic Complexity Reduction"
+                exportConfig={getComplexityConfig(displayData, t)}
+              >
+                <ComplexityChart data={displayData} />
+              </ExportWrapper>
+              <ExportWrapper 
+                filename="maintainability_index" 
+                title="Figure: Maintainability Index Comparison"
+                exportConfig={getMaintainabilityConfig(displayData, t)}
+              >
+                <MaintainabilityChart data={displayData} />
+              </ExportWrapper>
+              <ExportWrapper 
+                filename="execution_vs_size" 
+                title="Figure: Execution Time vs Size Ratio"
+                exportConfig={getExecutionVsSizeConfig(displayData, t)}
+              >
+                <ExecutionVsSizeChart data={displayData} />
+              </ExportWrapper>
+              <ExportWrapper 
+                filename="pylint_scatter" 
+                title="Figure: Pylint Score Distribution"
+                exportConfig={getPylintScatterConfig(displayData, t)}
+              >
+                <PylintScatterChart data={displayData} />
+              </ExportWrapper>
+              <ExportWrapper filename="token_cost_breakdown" title="Figure: Operational Cost Breakdown (Token)">
+                <TokenCostChart />
+              </ExportWrapper>
             </div>
           </section>
 
@@ -277,7 +362,13 @@ export default function DashboardPage() {
                 <p className={styles.sectionSubtitle}>{t('dashboard.cobolBoundaryDesc')}</p>
               </div>
             </div>
-            <BoundaryFaithfulnessChart data={displayData} />
+              <ExportWrapper 
+                filename="boundary_faithfulness" 
+                title="Figure: Legacy Boundary Behavior Faithfulness"
+                exportConfig={getBoundaryFaithfulnessConfig(displayData, t)}
+              >
+                <BoundaryFaithfulnessChart data={displayData} />
+              </ExportWrapper>
           </section>
         </>
       )}
@@ -291,7 +382,9 @@ export default function DashboardPage() {
             <p className={styles.sectionSubtitle}>{t('dashboard.researchSummarySub')}</p>
           </div>
         </div>
-        <ModelStatsTable data={displayData} viewType={activeTab === 'additional' ? 'additional' : 'directional'} />
+        <ExportWrapper filename="model_stats_table" title="Table: Aggregated Model Performance Statistics">
+          <ModelStatsTable data={displayData} viewType={activeTab === 'additional' ? 'additional' : 'directional'} />
+        </ExportWrapper>
       </section>
     </main>
   );

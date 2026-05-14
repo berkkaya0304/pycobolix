@@ -367,8 +367,35 @@ export default function LandingPage() {
 
   return (
     <main className={styles.main}>
-      <h1 className={styles.title}>{t('landing.title')}</h1>
-      <p className={styles.subtitle}>{t('landing.subtitle')}</p>
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', width: '100%', maxWidth: '1000px', margin: '0 auto', paddingBottom: '1rem' }}>
+        <div>
+          <h1 className={styles.title} style={{ textAlign: 'left' }}>{t('landing.title')}</h1>
+          <p className={styles.subtitle} style={{ textAlign: 'left', marginBottom: '0' }}>{t('landing.subtitle')}</p>
+        </div>
+        <button 
+          onClick={() => router.push('/dashboard')} 
+          disabled={analyzing || translating}
+          style={{
+            display: 'flex',
+            alignItems: 'center',
+            gap: '0.5rem',
+            padding: '0.6rem 1.2rem',
+            borderRadius: '6px',
+            fontSize: '0.9rem',
+            fontWeight: 600,
+            cursor: 'pointer',
+            backgroundColor: 'transparent',
+            color: 'var(--text, #f8fafc)',
+            border: '1px solid var(--border-color, rgba(148,163,184,0.4))',
+            transition: 'all 0.2s ease',
+            whiteSpace: 'nowrap'
+          }}
+          onMouseEnter={e => { e.currentTarget.style.backgroundColor = 'rgba(255,255,255,0.05)'; }}
+          onMouseLeave={e => { e.currentTarget.style.backgroundColor = 'transparent'; }}
+        >
+          Directly to Dashboard without Any Testing <ArrowRight size={16} />
+        </button>
+      </div>
 
       <div className={styles.grid}>
 

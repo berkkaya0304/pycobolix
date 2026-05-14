@@ -93,8 +93,8 @@ export const en = {
     ccReductionSub: 'Avg Radon CC reduction',
     avgLocRatio: 'Avg LoC Ratio',
     avgLocRatioSub: 'Python LoC / COBOL LoC',
-    avgExecTime: 'Avg Exec Time',
-    avgExecTimeSub: 'Avg time per Python test',
+    avgExecTime: 'Avg Local Exec Time',
+    avgExecTimeSub: 'Avg local sandbox time per test',
     avgMypyErrors: 'Avg mypy Errors',
     avgMypyErrorsSub: 'Python type error count',
     avgHalsteadEffort: 'Avg Halstead Effort',
@@ -116,7 +116,7 @@ export const en = {
     pylint: 'Pylint',
     ccReduction: 'CC ↓ %',
     locRatio: 'LoC Ratio',
-    execMs: 'Exec ms',
+    execMs: 'Local Exec ms',
     mypy: 'mypy',
     halsteadE: 'Halstead E',
     testCase: 'Test Case',
@@ -222,15 +222,15 @@ export const en = {
     colModel: 'Model',
     colFiles: 'Files',
     colTests: 'Tests',
-    colHardPct: 'Cbl➔Py Format %',
-    colSoftPct: 'Cbl➔Py Semantic %',
+    colFormatPct: 'Cbl➔Py Format %',
+    colSemanticPct: 'Cbl➔Py Semantic %',
     colRevTests: 'Py➔Cbl Tests',
-    colRevSoftPct: 'Py➔Cbl Semantic %',
-    colRevHardPct: 'Py➔Cbl Format %',
+    colRevSemanticPct: 'Py➔Cbl Semantic %',
+    colRevFormatPct: 'Py➔Cbl Format %',
     colPylintAvg: 'Pylint avg (min–max)',
     colComplexAvg: 'Complexity ↓ avg',
     colLocRatio: 'LoC Ratio',
-    colExecPy: 'Exec (Python ms)',
+    colExecPy: 'Local Exec (ms)',
     colMypy: 'mypy errors (avg)',
     colHalstead: 'Halstead Effort',
   },
@@ -303,9 +303,9 @@ export const en = {
         good: '< 0.8 good (Python shorter), < 0.5 excellent'
       },
       avgExecTime: {
-        name: 'Avg Exec Time',
+        name: 'Avg Local Exec Time',
         formula: 'Σ(test_execution_ms) / test_count',
-        desc: 'Time taken for the Python program to execute a test, in milliseconds. Includes system calls and process spawn time. Lower is faster.',
+        desc: 'Time taken for the translated program to execute a test in the local sandbox, in milliseconds. Includes system calls and process spawn time. Lower is faster.',
         range: 'Positive number in ms',
         good: 'Should be compared to COBOL execution time'
       },
@@ -364,17 +364,18 @@ export const en = {
     }
   },
   charts: {
-    testOutcomeDistributionChart: 'Test Outcome Distribution',
-    pylintScatterChart: 'Pylint Score vs Format Match % (Correlation)',
-    matchComparisonChart: 'Match Strategy Comparison (%)',
+    testOutcomeDistributionChart: 'Dual-Track Semantic Validation',
+    pylintScatterChart: 'Static Code Quality Comparison',
+    matchComparisonChart: 'Translation Correctness Benchmarks',
     maintainabilityChart: 'Maintainability Profile',
     hardSoftDeltaChart: 'Format vs Semantic Match & Formatting Gap',
-    fileDifficultyChart: 'Format Match % per COBOL File (by Model)',
-    executionVsSizeChart: 'Code Size vs. Execution Time',
-    errorPatternChart: 'Error Pattern Distribution',
+    fileDifficultyChart: 'Semantic Match % (Top 20 Hardest Files)',
+    executionVsSizeChart: 'Code Size vs. Local Execution Time',
+    errorPatternChart: 'Detailed Error Type Distribution',
     consensusFailureChart: 'Consensus Failure Analysis',
-    complexityChart: 'Cyclomatic Complexity Reduction (%)',
+    complexityChart: 'The Complexity Paradox Analysis',
     boundaryFaithfulnessChart: 'COBOL Boundary Faithfulness',
+    tokenCostChart: 'Operational Cost Breakdown(Token)'
   },
   chartLabels: {
     testOutcome: {
@@ -437,14 +438,23 @@ export const en = {
       subtitle: 'Shows translation difficulty per source program'
     },
     execVsSize: {
-      subtitle: 'LoC Ratio (Python/COBOL) vs Avg Exec Time. Bottom-left = Concise & Fast.',
+      subtitle: 'LoC Ratio (Python/COBOL) vs Avg Local Exec Time. Bottom-left = Concise & Fast.',
       locRatio: 'LoC Ratio',
-      execTime: 'Exec Time (ms)'
+      execTime: 'Local Exec Time (ms)'
     },
     pylintScatter: {
       subtitle: 'Each point = one model × one COBOL file. Trend up-right = quality correlates with correctness.',
       pylintScore: 'Pylint Score',
       formatMatch: 'Format Match %'
+    },
+    tokenCost: {
+      subtitle: 'Token consumption analysis across different LLM models',
+      totalTokens: 'Total Tokens',
+      outputTokens: 'Output Tokens',
+      promptTokens: 'Prompt Tokens',
+      completionTokens: 'Completion Tokens',
+      loading: 'Loading analysis data...',
+      empty: 'No token usage data found for this analysis.'
     }
   },
   tutorial: {
@@ -560,10 +570,10 @@ export const en = {
     },
     speed: {
       title: 'Runtime Execution Speed',
-      subtitle: 'Average Execution Time per Test (Milliseconds)',
-      pythonAvg: 'Python Avg (ms)',
+      subtitle: 'Average Local Sandbox Execution Time per Test (ms)',
+      pythonAvg: 'Local Sandbox Avg (ms)',
       cobolAvg: 'COBOL Avg (ms)',
-      timelineTitle: 'Execution Timeline (Python vs Native COBOL)',
+      timelineTitle: 'Execution Timeline (Local Sandbox vs Native COBOL)',
       yLabel: 'Time (ms)',
       noteTitle: 'Performance Note',
       noteText: 'This chart compares the average sub-millisecond execution time of the translated Python scripts against the compiled native COBOL binaries. Because Python is interpreted, slight overhead is expected, but excessive delays may indicate inefficient legacy translations (like unoptimized loops or heavy IO padding).'

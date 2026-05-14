@@ -110,6 +110,33 @@ The Pycobolix dashboard and backend are built on **Next.js**.
 4. **Access the Dashboard:**
    Open your browser and navigate to [http://localhost:3000](http://localhost:3000) to begin exploring the Pycobolix interface.
 
+### Article Utilities
+
+The repository includes helper commands for keeping the paper assets in sync with the latest benchmark output:
+
+```bash
+npm run article:figures
+```
+
+Regenerates the article chart PDFs in `article/pycobolix_last_converted/` from the current benchmark artifacts. The generated figures use a fixed PDF canvas so LaTeX placement stays stable.
+
+```bash
+npm run article:token-chart
+```
+
+Regenerates only `article/pycobolix_last_converted/fig_new_token_usage.pdf` from `public/output/llm_usage.json`.
+
+```bash
+npm run article:compile
+```
+
+Compiles `article/pycobolix_last_converted/main.tex` when a LaTeX engine is available. The script auto-detects `latexmk`, `tectonic`, or `pdflatex` + `bibtex`. You can also pass options, for example:
+
+```bash
+npm run article:compile -- --engine=tectonic
+npm run article:compile -- --article-dir=article/pycobolix_last_converted --main=main.tex
+```
+
 ---
 
 ## 📄 License & Academic Citation
