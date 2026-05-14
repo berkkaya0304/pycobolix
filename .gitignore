@@ -46,3 +46,4 @@ next-env.d.ts
 # docs
 /article/
 /public/docs/
+/scripts/
