@@ -4,7 +4,7 @@
   
   [![Next.js](https://img.shields.io/badge/Next.js-15-black?logo=next.js)](https://nextjs.org/)
   [![License](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
-  [![LLM](https://img.shields.io/badge/Supported_Models-Gemini_3.1_Pro_%7C_Llama_3-purple)](#)
+  [![LLM](https://img.shields.io/badge/Supported_Models-Gemini_%7C_Claude_%7C_Mistral_%7C_Gemma_%7C_Cogito-purple)](#)
   [![TypeScript](https://img.shields.io/badge/TypeScript-007ACC?logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
 </div>
 
@@ -22,21 +22,7 @@ Unlike standard code generation tools, Pycobolix does not blindly trust AI outpu
 - **🛡️ Bidirectional Sandbox Validation:** Compares the original GnuCOBOL baseline against the generated Python execution in deeply isolated containers. It supports both **forward testing** (COBOL $\rightarrow$ Python) and **reverse testing** (Python $\rightarrow$ COBOL).
 - **🧪 Hybrid Test Generation:** Automatically synthesizes 5 robust test cases per file by prioritizing deterministic Boundary Value Analysis (BVA) for numeric fields, and gracefully falling back to LLM-generated inputs when static analysis borders are exceeded.
 - **📊 Comprehensive Metrics:** Computes rigorous empirical metrics, including Semantic Match Rate, Format Match (Hard Match), Pass@1, Halstead Effort, and Cyclomatic Complexity Reduction.
-- **🔒 Data Privacy & Local Execution:** Fully supports locally-hosted open-weights models (like **Meta Llama 3 via Ollama**) alongside cloud APIs (**Google Gemini 3.1 Pro**), allowing institutions with strict confidentiality requirements to run the entire pipeline offline.
-
----
-
-## 📸 User Interface (Web Dashboard)
-
-Pycobolix comes with a modern Next.js-based dashboard that allows researchers and engineers to monitor translation queues, inspect sandbox execution metrics, and dive deep into AI-generated benchmark summaries.
-
-| Home | Dashboard |
-|:---:|:---:|
-| ![Home](./public/docs/ui_home.png) | ![Dashboard](./public/docs/ui_dashboard.png) |
-| **Code Explorer** | **Metrics Analysis** |
-| ![Explorer](./public/docs/ui_explorer.png) | ![Analysis](./public/docs/ui_analysis.png) |
-
-*(Additional views include Model Settings and Token Usage monitors.)*
+- **🔒 Data Privacy & Local Execution:** Fully supports locally-hosted open-weights models (like **Gemma 4** and **Cogito 21** via Ollama) alongside leading cloud APIs (**Google Gemini 3.1 Pro**, **Claude Opus 4.6**, and **Mistral Large 3**), allowing institutions with strict confidentiality requirements to run the entire pipeline offline or securely in the cloud.
 
 ---
 
