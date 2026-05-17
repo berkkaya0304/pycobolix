@@ -1,0 +1,13 @@
+       IDENTIFICATION DIVISION.
+       PROGRAM-ID. WRITING-NAME.
+       DATA DIVISION.
+       WORKING-STORAGE SECTION.
+       77  NAME PIC X(9).
+       77  I PIC 9(2).
+       PROCEDURE DIVISION.
+           MOVE "SINEM SEN" TO NAME.
+           PERFORM UNTIL I >= LENGTH OF NAME
+           ADD 1 TO I
+           DISPLAY NAME(I : 1)
+           END-PERFORM.
+           STOP RUN.
